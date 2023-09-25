@@ -21,6 +21,8 @@ android {
     buildTypes {
 
         val MOVIEDB_API_KEY = providers.gradleProperty("MOVIEDB_API_KEY")
+        val MOVIEDB_BASE_URL = providers.gradleProperty("MOVIEDB_BASE_URL")
+        val MOVIEDB_POSTER_URL = providers.gradleProperty("MOVIEDB_POSTER_URL")
         release {
 
             isMinifyEnabled = true
@@ -29,6 +31,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField( "String", "API_KEY", "\"${MOVIEDB_API_KEY}\"")
+            buildConfigField( "String", "MOVIEDB_BASE_URL", "\"${MOVIEDB_BASE_URL}\"")
+            buildConfigField( "String", "MOVIEDB_POSTER_URL", "\"${MOVIEDB_POSTER_URL}\"")
         }
         debug {
             isMinifyEnabled = false
@@ -37,6 +41,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField( "String", "API_KEY", "\"${MOVIEDB_API_KEY}\"")
+            buildConfigField( "String", "MOVIEDB_BASE_URL", "\"${MOVIEDB_BASE_URL}\"")
+            buildConfigField( "String", "MOVIEDB_POSTER_URL", "\"${MOVIEDB_POSTER_URL}\"")
         }
 
     }
@@ -77,7 +83,15 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
+    //lifecycle
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.opencsv:opencsv:5.5")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 
 }

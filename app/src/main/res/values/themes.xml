@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.MovieDB" parent="Base.Theme.MovieDB" />
+
+    <color name="textColorPrimary">@color/black</color>
 </resources>

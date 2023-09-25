@@ -14,11 +14,13 @@ import com.bumptech.glide.Glide
 import task.abdur.moviedb.BuildConfig
 import task.abdur.moviedb.R
 import task.abdur.moviedb.activities.MovieActivity
+import task.abdur.moviedb.activities.TvShowActivity
 import task.abdur.moviedb.models.Movie
+import task.abdur.moviedb.models.TV
 import task.abdur.moviedb.utils.PreferenceManager
 
-class MovieAdapter(private val context: Context, private var movies: List<Movie>) :
-    RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class TvShowAdapter(private val context: Context, private var tvs: List<TV>) :
+    RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
 
     private val preferenceManager = PreferenceManager(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,34 +30,34 @@ class MovieAdapter(private val context: Context, private var movies: List<Movie>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = movies[position]
+        val tv = tvs[position]
 
-        holder.titleTextView.text = movie.title
-        holder.releaseDateTextView.text = movie.release_date
+        holder.titleTextView.text = tv.name
+        holder.releaseDateTextView.text = tv.first_air_date
 
-        // Load the movie poster using Glide or your preferred image loading library
+        // Load the tv poster using Glide or your preferred image loading library
         Glide.with(context)
-            .load("https://image.tmdb.org/t/p/w500/"+ movie.poster_path)
+            .load("https://image.tmdb.org/t/p/w500/"+ tv.poster_path)
             .into(holder.posterImageView)
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, MovieActivity::class.java)
-            intent.putExtra("movie", movie) // movie is an instance of Movie
+            val intent = Intent(context, TvShowActivity::class.java)
+            intent.putExtra("tv", tv) // tv is an instance of Movie
             context.startActivity(intent)
         }
         // Set the favorite button based on the isFavorite property
-        if (preferenceManager.isFavoriteMovie(movie.id)) {
+        if (preferenceManager.isFavoriteTv(tv.id)) {
             holder.favoriteButton.setImageResource(R.drawable.baseline_favorite_24)
         } else {
             holder.favoriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
         }
         holder.favoriteButton.setOnClickListener {
-            onFavoriteClick(movie)
+            onFavoriteClick(tv)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return tvs.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,17 +66,17 @@ class MovieAdapter(private val context: Context, private var movies: List<Movie>
         val releaseDateTextView: TextView = itemView.findViewById(R.id.textViewReleaseDate)
         val favoriteButton: ImageButton = itemView.findViewById(R.id.favoriteButton)
     }
-    fun setMovies(movieList: List<Movie>) {
-        movies = movieList
+    fun setTvs(tvList: List<TV>) {
+        tvs = tvList
         notifyDataSetChanged() // Notify the adapter that the data has changed
     }
-     fun onFavoriteClick(movie: Movie) {
+     fun onFavoriteClick(tv: TV) {
         // Toggle the favorite state using the FavoriteMovieManager
-        val movieId = movie.id
-        if (!preferenceManager.isFavoriteMovie(movieId)) {
-            preferenceManager.addFavoriteMovie(movieId)
+        val tvId = tv.id
+        if (!preferenceManager.isFavoriteTv(tvId)) {
+            preferenceManager.addFavoriteTv(tvId)
         } else {
-            preferenceManager.removeFavoriteMovie(movieId)
+            preferenceManager.removeFavoriteTV(tvId)
         }
 
         // Notify the adapter that the dataset has changed

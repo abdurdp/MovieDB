@@ -2,20 +2,20 @@ package task.abdur.moviedb.models
 
 import android.os.Parcel
 import android.os.Parcelable
-data class MovieResponse(
+data class TVResponse(
     val page: Int,
-    val results: List<Movie>,
+    val results: List<TV>,
     val total_pages: Int,
     val total_results: Int
 )
 
-data class Movie(
+data class TV(
     val id: Int,
-    val title: String,
+    val name: String,
     val backdrop_path: String,
     val poster_path: String,
     val overview: String,
-    val release_date: String,
+    val first_air_date: String,
     val vote_average: Double,
     val isFavorite: Boolean = false
 ) : Parcelable {
@@ -32,11 +32,11 @@ data class Movie(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
-        parcel.writeString(title)
+        parcel.writeString(name)
         parcel.writeString(backdrop_path)
         parcel.writeString(poster_path)
         parcel.writeString(overview)
-        parcel.writeString(release_date)
+        parcel.writeString(first_air_date)
         parcel.writeDouble(vote_average)
         parcel.writeByte(if (isFavorite) 1 else 0)
     }
@@ -45,12 +45,12 @@ data class Movie(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Movie> {
-        override fun createFromParcel(parcel: Parcel): Movie {
-            return Movie(parcel)
+    companion object CREATOR : Parcelable.Creator<TV> {
+        override fun createFromParcel(parcel: Parcel): TV {
+            return TV(parcel)
         }
 
-        override fun newArray(size: Int): Array<Movie?> {
+        override fun newArray(size: Int): Array<TV?> {
             return arrayOfNulls(size)
         }
     }
